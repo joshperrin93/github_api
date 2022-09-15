@@ -1,13 +1,23 @@
-const api = require('./githubApi');
-const github = require('./github');
+const Github = require('./github');
+const GithubApi = require('./githubApi');
 
-describe('github', () => {
-    it('should return a JS object', () => {
-        const api = new GithubApi()
-        const github = new Github(api)
+describe('Github', () => {
+  it('fetches sinatra/sinatra', () => {
+    const mockedApi = {
+      fetchRepositoryData: (repoName, callback) => {
+        callback({
+          name: 'sinatra/sinatra',
+          description: 'Some fake description'
+        });
+      }
+    };
 
-        github.fetch('sinatra/sinatra')
-
-        expect(github.getRepoData().id).toEqual(106995)
+    const github = new Github(mockedApi);
+    
+    github.fetch('sinatra/sinatra')
+    expect(github.getRepoData()).toEqual({
+      name: 'sinatra/sinatra',
+      description: 'Some fake description'
     })
-})
+  });
+});

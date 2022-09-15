@@ -1,17 +1,20 @@
+const GithubApi = require('./githubAPI');
+
 class Github {
+  constructor(api) {
+    this.api = api;
+    this.data = null;
+  }
 
-    constructor() {
+  fetch(path) {
+    this.api.fetchRepositoryData(path, (response) => {
+      this.data = response;
+    });
+  }
 
-    }
-
-    fetch(path) {
-
-    }
-
-    getRepoData() {
-
-    }
-
+  getRepoData() {
+    return this.data
+  }
 }
 
-export.modules = Github
+module.exports = Github;
